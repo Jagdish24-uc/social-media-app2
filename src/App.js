@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Feed from "./pages/Feed";
+import Profile from "./pages/Profile";
+import NewPost from "./pages/NewPost";
+import PrivateRoute from "./components/PrivateRoute";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Feed />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/post/new"
+          element={
+            <PrivateRoute>
+              <NewPost />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Optional: Catch-all route for 404 - Not Found */}
+        {/* <Route path="*" element={<NotFound />} /> */}
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
